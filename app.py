@@ -41,6 +41,6 @@ def metrics():
 if __name__ == "__main__":
     logging.basicConfig(
         filename='app.log',
-        level=logging.DEBUG
+        level=logging.DEBUG)
 
     app.run(host='0.0.0.0', port=8080)
