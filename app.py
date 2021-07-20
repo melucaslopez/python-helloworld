@@ -4,10 +4,11 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
+    app.logger.info("Main request successful")
     return "Hello World!"
 
 @app.route("/status")
-def stats_api():
+def healthcheck():
     health = {
         "result": "OK - healthy"
     }
@@ -16,12 +17,14 @@ def stats_api():
         status=200,
         mimetype='application/json'
     )
-    app.logger.info("status endpoint looks good")
+    app.logger.info("Status request successful")
     return response
 
 @app.route("/metrics")
-def metrics_api():
+def metrics():
     counts = {
+        "status": "success",
+        "code": 0,
         "data": {
             "UserCount": 140,
             "UserCountActive": 23
@@ -32,13 +35,12 @@ def metrics_api():
         status=200,
         mimetype='application/json'
     )
-    app.logger.info("metrics endpoint looks good")
+    app.logger.info("Metrics request successful")
     return response
 
 if __name__ == "__main__":
     logging.basicConfig(
-        format='%(asctime)s %(levelname)-8s %(message)s',
         filename='app.log',
-        level=logging.DEBUG,
-        datefmt='%Y-%m-%d %H:%M:%S')
-    app.run(host='0.0.0.0')
+        level=logging.DEBUG
+
+    app.run(host='0.0.0.0', port=8080)
